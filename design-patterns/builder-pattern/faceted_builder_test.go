@@ -28,42 +28,42 @@ Power Supply: AeroCool 1000X 1000W
 	computerBuilder := NewComputerConfigurationBuilder()
 	result := computerBuilder.
 		NewCpuConfigurationBuilder().
-		CpuName("Core Ultra 9 185H").
-		CpuType("Intel").
-		CpuPower(5.1).
+			CpuName("Core Ultra 9 185H").
+			CpuType("Intel").
+			CpuPower(5.1).
 		NewCoolerConfigurationBuilder().
-		CoolerName("CoolerMaster Core Ultra 9").
+			CoolerName("CoolerMaster Core Ultra 9").
 		NewRAMConfigurationBuilder().
-		RAMSize(64).
+			RAMSize(64).
 		NewMotherBoardConfigurationBuilder().
-		MotherBoardModel("MSI 185H Deluxe Edition").
+			MotherBoardModel("MSI 185H Deluxe Edition").
 		NewGPUConfigurationBuilder().
-		GPUType("NVidia").
-		GpuName("GeForce 4090 RTX").
-		GpuRamSize(24).
+			GPUType("NVidia").
+			GpuName("GeForce 4090 RTX").
+			GpuRamSize(24).
 		NewHDDConfigurationBuilder().
-		HDDType("SSD").
-		HDDName("Samsung 960").
-		HDDSize(4000).
+			HDDType("SSD").
+			HDDName("Samsung 960").
+			HDDSize(4000).
 		NewCaseConfigurationBuilder().
-		CaseType("Tower").
-		CaseName("AeroCool Tower").
-		CaseColor("Black").
+			CaseType("Tower").
+			CaseName("AeroCool Tower").
+			CaseColor("Black").
 		NewPowerSupplyConfigurationBuilder().
-		PowerSupplyPower(1000).
-		PowerSupplyName("AeroCool 1000X").
+			PowerSupplyPower(1000).
+			PowerSupplyName("AeroCool 1000X").
 		NewMonitorConfigurationBuilder().
-		MonitorSize(49).
-		MonitorName("Dell Wide Gamer Edition").
+			MonitorSize(49).
+			MonitorName("Dell Wide Gamer Edition").
 		NewOsConfigurationBuilder().
-		OSName("Windows 11 Pro").
-		AddApplication("Office 2021 Pro").
-		AddApplication("ESET NOD32 Home Edition").
-		AddApplication("Google Chrome").
-		AddApplication("Adobe Photoshop 2024").
-		AddApplication("DaVinci Resolve Studio Edition").
-		AddApplication("Topaz Video AI").
-		AddApplication("Embarcadero RAD Studio 12").
+			OSName("Windows 11 Pro").
+			AddApplication("Office 2021 Pro").
+			AddApplication("ESET NOD32 Home Edition").
+			AddApplication("Google Chrome").
+			AddApplication("Adobe Photoshop 2024").
+			AddApplication("DaVinci Resolve Studio Edition").
+			AddApplication("Topaz Video AI").
+			AddApplication("Embarcadero RAD Studio 12").
 		Build()
 
 	assert.Equal(t, expected, result)
