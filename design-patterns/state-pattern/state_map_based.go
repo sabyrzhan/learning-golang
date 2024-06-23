@@ -2,6 +2,12 @@ package state_pattern
 
 import "fmt"
 
+// Here we are doing money transfer from one account to another one using P2P or International transfer type
+// In case of International transfer we have multiple states of the transfer because each state is checked by bank for fraud
+// In case of P2P it is possible to directly send from account to another one without any checks because of domesticity
+// Main point of using map for states here is, current state points to next state(s). We can set our next action by
+// selecting the needed state as next step.
+
 type MoneyTransferState int
 const (
 	Created MoneyTransferState = iota
