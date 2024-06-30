@@ -1,17 +1,38 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
 	var revenue, expenses, tax float64
 	revenue = readInput("Revenue: ")
+	if revenue <= 0 {
+		fmt.Println("Revenue must be greater than zero.")
+		return
+	}
 	expenses = readInput("Expenses: ")
+	if expenses <= 0 {
+		fmt.Println("Expenses must be greater than zero.")
+		return
+	}
 	tax = readInput("Tax rate: ")
+	if tax <= 0 {
+		fmt.Println("Tax rate must be greater than zero.")
+		return
+	}
 
 	ebt, eat, ratio := calculate(revenue, expenses, tax)
-	fmt.Println("Earnings before tax (EBT): ", ebt)
-	fmt.Println("Earnings after tax (EAT): ", eat)
-	fmt.Printf("Ratio: %.2f\n", ratio)
+	result := fmt.Sprintf("Earnings before tax (EBT): %.2f\n", ebt)
+	result += fmt.Sprintf("Earnings after tax (EAT): %.2f\n", eat)
+	result += fmt.Sprintf("Ratio: %.2f", ratio)
+
+	err := os.WriteFile("result.txt", []byte(result), 0644)
+	if err != nil {
+		fmt.Println("ERROR: error writing result.txt", err.Error())
+	}
+	fmt.Println(result)
 }
 
 func readInput(question string) float64 {
