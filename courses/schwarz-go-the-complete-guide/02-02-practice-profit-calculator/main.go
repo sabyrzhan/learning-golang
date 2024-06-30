@@ -4,17 +4,27 @@ import "fmt"
 
 func main() {
 	var revenue, expenses, tax float64
-	fmt.Print("Revenue: ")
-	fmt.Scan(&revenue)
-	fmt.Print("Expenses: ")
-	fmt.Scan(&expenses)
-	fmt.Print("Tax rate: ")
-	fmt.Scan(&tax)
+	revenue = readInput("Revenue: ")
+	expenses = readInput("Expenses: ")
+	tax = readInput("Tax rate: ")
 
-	ebt := revenue - expenses
-	eat := ebt - ebt*tax/100
-	ratio := ebt / eat
+	ebt, eat, ratio := calculate(revenue, expenses, tax)
 	fmt.Println("Earnings before tax (EBT): ", ebt)
 	fmt.Println("Earnings after tax (EAT): ", eat)
 	fmt.Println("Ratio: ", ratio)
+}
+
+func readInput(question string) float64 {
+	fmt.Print(question)
+	var value float64
+	fmt.Scan(&value)
+
+	return value
+}
+
+func calculate(revenue, expenses, tax float64) (ebt float64, eat float64, ratio float64) {
+	ebt = revenue - expenses
+	eat = ebt - ebt*tax/100
+	ratio = ebt / eat
+	return
 }
