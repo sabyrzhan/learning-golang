@@ -11,7 +11,7 @@ func main() {
 	ebt, eat, ratio := calculate(revenue, expenses, tax)
 	fmt.Println("Earnings before tax (EBT): ", ebt)
 	fmt.Println("Earnings after tax (EAT): ", eat)
-	fmt.Println("Ratio: ", ratio)
+	fmt.Printf("Ratio: %.2f\n", ratio)
 }
 
 func readInput(question string) float64 {
