@@ -37,7 +37,9 @@ func main() {
 
 		err = event.Save()
 		if err != nil {
-			panic(err)
+			fmt.Println(fmt.Sprintf("Error while saving event: %s", err.Error()))
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "error while saving event"})
+			return
 		}
 
 		c.JSON(http.StatusCreated, gin.H{
