@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"rest-api/db"
 	"rest-api/models"
+	"strconv"
 )
 
 func main() {
@@ -23,6 +24,26 @@ func main() {
 
 		c.JSON(http.StatusOK, gin.H{
 			"events": events,
+		})
+	})
+	server.GET("/events/:id", func(c *gin.Context) {
+		id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": fmt.Sprintf("ID param error: %s", err.Error()),
+			})
+			return
+		}
+		event, err := models.GetEventById(id)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": fmt.Sprintf("DB error fetching event: %s", err.Error()),
+			})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"event": event,
 		})
 	})
 	server.POST("/events", func(c *gin.Context) {
