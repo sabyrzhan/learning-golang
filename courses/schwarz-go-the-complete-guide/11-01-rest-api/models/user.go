@@ -12,7 +12,7 @@ type User struct {
 	Password string `binding:"required"`
 }
 
-func (u User) Save() error {
+func (u *User) Save() error {
 	query := "INSERT INTO users(email, password) VALUES(?,?)"
 	prepare, err := db.DB.Prepare(query)
 	if err != nil {
@@ -37,12 +37,12 @@ func (u User) Save() error {
 	return nil
 }
 
-func (u User) ValidateCredentials() error {
-	query := "SELECT password FROM users WHERE email = ? LIMIT 1"
+func (u *User) ValidateCredentials() error {
+	query := "SELECT id, password FROM users WHERE email = ? LIMIT 1"
 	row := db.DB.QueryRow(query, u.Email)
 
 	var userPassword string
-	err := row.Scan(&userPassword)
+	err := row.Scan(&u.ID, &userPassword)
 	if err != nil {
 		return errors.New("invalid email and/or password")
 	}
