@@ -1,7 +1,25 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"net/http"
+	"rest-api/models"
+)
 
 func signup(c *gin.Context) {
+	var user models.User
+	err := c.ShouldBindJSON(&user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
+	err = user.Save()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("User save error: %v", err.Error())})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"user": user})
 }
