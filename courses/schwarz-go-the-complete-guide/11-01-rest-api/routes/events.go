@@ -75,10 +75,18 @@ func updateEvent(c *gin.Context) {
 		})
 		return
 	}
-	_, err = models.GetEventById(id)
+	userId := c.GetInt64("userId")
+	event, err := models.GetEventById(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": fmt.Sprintf("DB error fetching event: %s", err.Error()),
+		})
+		return
+	}
+
+	if userId != event.UserID {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Unauthorized to perform this action",
 		})
 		return
 	}
@@ -114,10 +122,18 @@ func deleteEvent(c *gin.Context) {
 		})
 		return
 	}
+	userId := c.GetInt64("userId")
 	event, err := models.GetEventById(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": fmt.Sprintf("DB error fetching event: %s", err.Error()),
+		})
+		return
+	}
+
+	if userId != event.UserID {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Unauthorized to perform this action",
 		})
 		return
 	}
