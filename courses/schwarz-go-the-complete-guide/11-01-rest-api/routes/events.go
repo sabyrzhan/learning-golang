@@ -53,6 +53,8 @@ func createEvent(c *gin.Context) {
 		return
 	}
 
+	event.UserID = c.GetInt64("userId")
+
 	err = event.Save()
 	if err != nil {
 		fmt.Println(fmt.Sprintf("Error while saving event: %s", err.Error()))
