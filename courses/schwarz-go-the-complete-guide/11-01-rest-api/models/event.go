@@ -65,6 +65,50 @@ func (e Event) Delete() error {
 	return nil
 }
 
+func (e Event) isAlreadyRegistered(userId int64) bool {
+	query := "SELECT id FROM registrations WHERE event_id = ? AND user_id = ? LIMIT 1"
+	row := db.DB.QueryRow(query, e.ID, userId)
+	var event Event
+	err := row.Scan(&event.ID)
+	if err != nil {
+		return false
+	}
+
+	return event.ID != 0
+}
+
+func (e Event) Register(userId int64) error {
+	if e.isAlreadyRegistered(userId) {
+		return nil
+	}
+
+	query := "INSERT INTO registrations(event_id, user_id) VALUES(?, ?)"
+	prepare, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+	defer prepare.Close()
+	_, err = prepare.Exec(e.ID, userId)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (e Event) CancelRegistration(userId int64) error {
+	query := "DELETE FROM registrations WHERE event_id = ? AND user_id = ? LIMIT 1"
+	prepare, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+	defer prepare.Close()
+	_, err = prepare.Exec(e.ID, userId)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func GetEvents() ([]Event, error) {
 	query := "SELECT * FROM events"
 	rows, err := db.DB.Query(query)

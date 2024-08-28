@@ -41,6 +41,16 @@ CREATE TABLE IF NOT EXISTS events (
     FOREIGN KEY (user_id) REFERENCES users(id)
 )
 `,
+		// Create registrations table
+		`
+CREATE TABLE IF NOT EXISTS registrations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    event_id INTEGER,
+    user_id INTEGER,
+    FOREIGN KEY(event_id) REFERENCES events(id),
+    FOREIGN KEY(user_id) REFERENCES users(id)
+)
+`,
 	}
 
 	for _, query := range createTableQueries {
