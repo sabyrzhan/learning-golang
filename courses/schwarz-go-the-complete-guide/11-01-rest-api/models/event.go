@@ -96,7 +96,7 @@ func (e Event) Register(userId int64) error {
 }
 
 func (e Event) CancelRegistration(userId int64) error {
-	query := "DELETE FROM registrations WHERE event_id = ? AND user_id = ? LIMIT 1"
+	query := "DELETE FROM registrations WHERE event_id = ? AND user_id = ?"
 	prepare, err := db.DB.Prepare(query)
 	if err != nil {
 		return err
