@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+	"strconv"
 )
 
 type Templates struct {
@@ -22,18 +23,32 @@ func newTemplates() *Templates {
 	}
 }
 
+var id int = 0
+
 type Contact struct {
+	Id    int
 	Name  string
 	Email string
 }
 
 func newContact(name string, email string) Contact {
-	return Contact{Name: name, Email: email}
+	id++
+	return Contact{Name: name, Email: email, Id: id}
 }
 
 type Contacts = []Contact
 type Data struct {
 	Contacts
+}
+
+func (d Data) indexOf(id int) int {
+	for i, c := range d.Contacts {
+		if c.Id == id {
+			return i
+		}
+	}
+
+	return -1
 }
 
 func newData() Data {
@@ -104,6 +119,21 @@ func main() {
 		page.Data.Contacts = append(page.Data.Contacts, contact)
 		_ = c.Render(http.StatusOK, "form", newFormData())
 		return c.Render(http.StatusOK, "oob-contact", contact)
+	})
+
+	e.DELETE("/contacts/:id", func(c echo.Context) error {
+		idStr := c.Param("id")
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			return c.String(http.StatusBadRequest, "Invalid id")
+		}
+		index := page.Data.indexOf(id)
+		if index == -1 {
+			return c.String(http.StatusNotFound, "Contact not found")
+		}
+
+		page.Data.Contacts = append(page.Data.Contacts[:index], page.Data.Contacts[index+1:]...)
+		return c.NoContent(http.StatusOK)
 	})
 
 	e.Logger.Fatal(e.Start(":42069"))

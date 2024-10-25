@@ -48,9 +48,10 @@
 {{ end }}
 
 {{ block "contact" . }}
-<div>
+<div id="contact-{{ .Id }}">
     Name: <span>{{ .Name }}</span>
     Email: <span>{{ .Email }}</span>
+    <button hx-swap="outerHTML" hx-target="#contact-{{ .Id }}" hx-delete="/contacts/{{ .Id }}" style="cursor: pointer">Delete</button>
 </div>
 {{ end }}
 
