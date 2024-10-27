@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 type Templates struct {
@@ -98,6 +99,8 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Renderer = newTemplates()
+	e.Static("/images", "images")
+	e.Static("/css", "css")
 
 	page := newPageData()
 
@@ -122,6 +125,7 @@ func main() {
 	})
 
 	e.DELETE("/contacts/:id", func(c echo.Context) error {
+		time.Sleep(3 * time.Second)
 		idStr := c.Param("id")
 		id, err := strconv.Atoi(idStr)
 		if err != nil {

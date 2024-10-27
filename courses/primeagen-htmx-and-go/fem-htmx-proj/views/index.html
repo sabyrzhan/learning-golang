@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/css/index.css" />
     <title>Document</title>
     <script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.js" integrity="sha384-BBDmZzVt6vjz5YbQqZPtFZW82o8QotoM7RUp5xOxV3nSJ8u2pSdtzFAbGKzTlKtg" crossorigin="anonymous"></script>
 </head>
@@ -51,7 +51,9 @@
 <div id="contact-{{ .Id }}">
     Name: <span>{{ .Name }}</span>
     Email: <span>{{ .Email }}</span>
-    <button hx-swap="outerHTML" hx-target="#contact-{{ .Id }}" hx-delete="/contacts/{{ .Id }}" style="cursor: pointer">Delete</button>
+    <button hx-indicator="#indic-{{ .Id }}" hx-swap="outerHTML" hx-target="#contact-{{ .Id }}" hx-delete="/contacts/{{ .Id }}" style="cursor: pointer">Delete</button>
+
+    <img id="indic-{{ .Id }}" class="htmx-indicator" src="/images/bars.svg" alt="loading" style="width: 1rem;" />
 </div>
 {{ end }}
 
